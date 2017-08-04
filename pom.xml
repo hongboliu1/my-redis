@@ -17,7 +17,7 @@
 		<maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
 		<maven-surefire-plugin.version>2.8</maven-surefire-plugin.version>
 		<maven-war-plugin.version>2.3</maven-war-plugin.version>
-		<maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
+		<maven-assembly-plugin.version>2.4.1</maven-assembly-plugin.version>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
 		
 			<!-- 定义是否检测重复类 -->
@@ -49,7 +49,7 @@
 		<transactions-jdbc.version>3.9.3</transactions-jdbc.version>
 		<!-- log -->
 		<log4j.version>1.2.16</log4j.version>
-		<org.slf4j.version>1.6.1</org.slf4j.version>
+		<org.slf4j.version>1.7.12</org.slf4j.version>
 		<!-- 序列化 -->
 		<jackson.version>2.4.4</jackson.version>
 		<kryo.version>2.24.0</kryo.version>

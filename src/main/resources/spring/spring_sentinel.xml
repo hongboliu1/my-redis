@@ -16,17 +16,11 @@
 		<constructor-arg index="1">
 			<list>
 				<value>mymaster</value>
-				<!--
-				<value>shard_b</value>
-				-->
 			</list>
 		</constructor-arg>
 		<constructor-arg index="2">
 			<set>
-				<!-- 
-				<value>192.168.100.90:6000</value>
-				 -->
-				<value>192.168.99.254:26379</value>
+				<value>172.4.23.99:26379</value>
 			</set>
 		</constructor-arg>
 	</bean>

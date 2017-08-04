@@ -1,5 +1,4 @@
 package com.ai.redis.util;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,9 +29,9 @@ import redis.clients.util.SafeEncoder;
 
 /**
  * redis常用命令简单封装sharding版本
- * 
+ *
  * @author liujiangping
- * 
+ *
  */
 public class RedisUtils {
 	private static final org.slf4j.Logger log = LoggerFactory
@@ -112,7 +111,7 @@ public class RedisUtils {
 
 	/**
 	 * 获取 ShardedJedis
-	 * 
+	 *
 	 * @return
 	 */
 	public ShardedJedis getResource() {
@@ -121,7 +120,7 @@ public class RedisUtils {
 
 	/**
 	 * 回收 ShardedJedis
-	 * 
+	 *
 	 * @param shardedJedis
 	 */
 	public void returnResource(ShardedJedis shardedJedis) {
@@ -138,7 +137,7 @@ public class RedisUtils {
 
 	/**
 	 * 销毁 ShardedJedis
-	 * 
+	 *
 	 * @param shardedJedis
 	 */
 	public void returnBrokenResource(ShardedJedis shardedJedis) {
@@ -155,7 +154,7 @@ public class RedisUtils {
 
 	/**
 	 * list尾部添加元素
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/rpush.html
 	 * @return list长度
 	 */
@@ -173,7 +172,17 @@ public class RedisUtils {
 			returnResource(shardedJedis);
 		}
 	}
-	
+
+	/**
+	 * Description	： list头部添加元素<br>
+	 *
+	 * liuhb
+	 * @param key
+	 * @param string
+	 * @return list的长度
+	 * @see http://redis.cn/commands/lpush.html
+	 *
+	 */
 	public long lpush(String key, String ... string) {
 		ShardedJedis shardedJedis = null;
 		try {
@@ -189,13 +198,13 @@ public class RedisUtils {
 		}
 	}
 
-	public long rpush(String key, Object obj) {
-		return rpush(key, JsonUtils.toJson(obj));
-	}
+//	public long rpush(String key, Object obj) {
+//		return rpush(key, JsonUtils.toJson(obj));
+//	}
 
 	/**
 	 * set
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/sadd.html
 	 * @return
 	 */
@@ -224,7 +233,7 @@ public class RedisUtils {
 
 	/**
 	 * 弹出头部元素
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/lpop.html
 	 * @return string 头部元素
 	 */
@@ -242,6 +251,7 @@ public class RedisUtils {
 		}
 	}
 
+	@Deprecated
 	public List<String> blpop(String key) {
 		ShardedJedis shardedJedis = null;
 		try {
@@ -257,6 +267,21 @@ public class RedisUtils {
 		}
 	}
 
+	public List<String> blpop(int timeout,String key) {
+		ShardedJedis shardedJedis = null;
+		try {
+			shardedJedis = getResource();
+			List<String> ret = shardedJedis.blpop(timeout,key);
+			return ret;
+		} catch (Exception e) {
+			returnBrokenResource(shardedJedis);
+			log.error(e.getMessage(), e);
+			throw new JedisException(e);
+		} finally {
+			returnResource(shardedJedis);
+		}
+	}
+	@Deprecated
 	public List<String> brpop(String key) {
 		ShardedJedis shardedJedis = null;
 		try {
@@ -271,14 +296,27 @@ public class RedisUtils {
 			returnResource(shardedJedis);
 		}
 	}
-
+	public List<String> brpop(int timeout,String key) {
+		ShardedJedis shardedJedis = null;
+		try {
+			shardedJedis = getResource();
+			List<String> ret = shardedJedis.brpop(timeout,key);
+			return ret;
+		} catch (Exception e) {
+			returnBrokenResource(shardedJedis);
+			log.error(e.getMessage(), e);
+			throw new JedisException(e);
+		} finally {
+			returnResource(shardedJedis);
+		}
+	}
 	public <T> T lpop(String key, Class<T> clazz) {
 		return JsonUtils.fromJson(lpop(key), clazz);
 	}
 
 	/**
 	 * 弹出头部元素
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/rpop.html
 	 * @return
 	 */
@@ -303,7 +341,7 @@ public class RedisUtils {
 
 	/**
 	 * 获取LIST长度
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/llen.html
 	 * @return list长度
 	 */
@@ -324,7 +362,7 @@ public class RedisUtils {
 
 	/**
 	 * 删除LIST中的值
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/lrem.html
 	 * @return list长度
 	 */
@@ -349,7 +387,7 @@ public class RedisUtils {
 
 	/**
 	 * 修剪
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/ltrim.html
 	 * @return list长度
 	 */
@@ -370,7 +408,7 @@ public class RedisUtils {
 
 	/**
 	 * 获取key这个List，从第几个元素到第几个元素 LRANGE key start
-	 * 
+	 *
 	 * @param key
 	 *            List别名
 	 * @param start
@@ -406,7 +444,7 @@ public class RedisUtils {
 
 	/**
 	 * 将哈希表key中的域field的值设为value。
-	 * 
+	 *
 	 * @param key
 	 *            哈希表别名
 	 * @param field键
@@ -433,7 +471,7 @@ public class RedisUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @see link http://redis.cn/commands/set.html
@@ -458,7 +496,7 @@ public class RedisUtils {
 
 	/**
 	 * 获取key的值
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/get.html
 	 * @return
@@ -484,7 +522,7 @@ public class RedisUtils {
 
 	/**
 	 * 获取key的值
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/get.html
 	 * @return
@@ -506,7 +544,7 @@ public class RedisUtils {
 
 	/**
 	 * 将多个field - value(域-值)对设置到哈希表key中。
-	 * 
+	 *
 	 * @param key
 	 * @param map
 	 * @see link http://redis.cn/commands/hmset.html
@@ -535,7 +573,7 @@ public class RedisUtils {
 
 	/**
 	 * 给key赋值，并生命周期设置为seconds
-	 * 
+	 *
 	 * @param key
 	 * @param seconds
 	 *            生命周期 秒为单位
@@ -562,12 +600,12 @@ public class RedisUtils {
 
 	/**
 	 * 为给定key设置生命周期
-	 * 
+	 *
 	 * @param key
 	 * @param seconds
 	 *            生命周期 秒为单位
 	 * @see link http://redis.cn/commands/expire.html
-	 * 
+	 *
 	 */
 	public void expire(String key, int seconds) {
 		ShardedJedis shardedJedis = null;
@@ -585,11 +623,11 @@ public class RedisUtils {
 
 	/**
 	 * 获取key的有效时间
-	 * 
+	 *
 	 * @param key
 	 * @return seconds 生命时间 有效时间
 	 * @see link http://redis.cn/commands/ttl.html
-	 * 
+	 *
 	 */
 	public Long ttl(String key) {
 		ShardedJedis shardedJedis = null;
@@ -607,7 +645,7 @@ public class RedisUtils {
 
 	/**
 	 * 检查key是否存在
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/exists.html
 	 * @return
@@ -629,7 +667,7 @@ public class RedisUtils {
 
 	/**
 	 * 返回key值的类型 none(key不存在),string(字符串),list(列表),set(集合),zset(有序集),hash(哈希表)
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/type.html
 	 * @return
@@ -651,7 +689,7 @@ public class RedisUtils {
 
 	/**
 	 * 从哈希表key中获取field的value
-	 * 
+	 *
 	 * @param key
 	 * @param field
 	 * @see link http://redis.cn/commands/hget.html
@@ -673,7 +711,7 @@ public class RedisUtils {
 
 	/**
 	 * 返回哈希表key中，所有的域和值 默认无序
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/hgetall.html
 	 * @return
@@ -684,7 +722,7 @@ public class RedisUtils {
 
 	/**
 	 * 返回哈希表key中，所有的域和值
-	 * 
+	 *
 	 * @param key
 	 * @param order
 	 *            是否保持原始顺序
@@ -719,7 +757,7 @@ public class RedisUtils {
 
 	/**
 	 * 返回哈希表key中，所有的域和值 默认有序
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/hgetall.html
 	 * @return
@@ -773,7 +811,7 @@ public class RedisUtils {
 
 	/**
 	 * 返回哈希表key中，所有值
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/smembers.html
 	 * @return
@@ -795,7 +833,7 @@ public class RedisUtils {
 
 	/**
 	 * 移除集合中的member元素
-	 * 
+	 *
 	 * @param key
 	 *            List别名
 	 * @param field
@@ -826,7 +864,7 @@ public class RedisUtils {
 
 	/**
 	 * 判断member元素是否是集合key的成员。是（true），否则（false）
-	 * 
+	 *
 	 * @param key
 	 * @param field
 	 * @see link http://redis.cn/commands/sismember.html
@@ -853,7 +891,7 @@ public class RedisUtils {
 
 	/**
 	 * 如果key已经存在并且是一个字符串，将value追加到key原来的值之后
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @see link http://redis.cn/commands/append.html
@@ -874,7 +912,7 @@ public class RedisUtils {
 
 	/**
 	 * -- key
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/decr.html
 	 */
@@ -894,7 +932,7 @@ public class RedisUtils {
 
 	/**
 	 * key 减指定数值
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/decrBy.html
 	 */
@@ -914,7 +952,7 @@ public class RedisUtils {
 
 	/**
 	 * 删除key
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/del.html
 	 */
@@ -935,7 +973,7 @@ public class RedisUtils {
 	/**
 	 * 这里的N是返回的string的长度。复杂度是由返回的字符串长度决定的，但是因为从一个已经存在的字符串创建一个子串是很容易的，所以对于较小的字符串，
 	 * 可以认为是O(1)的复杂度。
-	 * 
+	 *
 	 * @param key
 	 * @see link http://redis.cn/commands/getrange.html
 	 */
@@ -955,7 +993,7 @@ public class RedisUtils {
 
 	/**
 	 * 自动将key对应到value并且返回原来key对应的value。如果key存在但是对应的value不是字符串，就返回错误。
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @see link http://redis.cn/commands/getSet.html
@@ -977,11 +1015,11 @@ public class RedisUtils {
 	/**
 	 * 从 key 指定的哈希集中移除指定的域。在哈希集中不存在的域将被忽略。如果 key
 	 * 指定的哈希集不存在，它将被认为是一个空的哈希集，该命令将返回0。
-	 * 
+	 *
 	 * 返回值 整数：返回从哈希集中成功移除的域的数量，不包括指出但不存在的那些域
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param key
 	 * @param fields
 	 * @see link http://redis.cn/commands/hdel.html
@@ -1002,14 +1040,14 @@ public class RedisUtils {
 
 	/**
 	 * 返回字段是否是 key 指定的哈希集中存在的字段。
-	 * 
+	 *
 	 * 返回值 整数, 含义如下：
-	 * 
+	 *
 	 * 1 哈希集中含有该字段。 0 哈希集中不含有该存在字段，或者key不存在。
-	 * 
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
+	 *
 	 * @param key
 	 * @param fields
 	 * @see link http://redis.cn/commands/hexists.html
@@ -1035,12 +1073,12 @@ public class RedisUtils {
 	/**
 	 * 增加 key 指定的哈希集中指定字段的数值。如果 key 不存在，会创建一个新的哈希集并与 key
 	 * 关联。如果字段不存在，则字段的值在该操作执行前被设置为 0
-	 * 
+	 *
 	 * HINCRBY 支持的值的范围限定在 64位 有符号整数
-	 * 
+	 *
 	 * 返回值 整数：增值操作执行后的该字段的值。
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
 	 * @param fields
 	 * @param value
@@ -1062,17 +1100,18 @@ public class RedisUtils {
 
 	/**
 	 * 返回 key 指定的哈希集中所有字段的名字。
-	 * 
+	 *
 	 * 返回值 多个返回值：哈希集中的字段列表，当 key 指定的哈希集不存在时返回空列表。
-	 * 
+	 *
 	 * @param key
-	 * 
+	 *
 	 * @return 返回值为linkedhashset有序
 	 * @see link http://redis.cn/commands/hkeys.html
 	 */
 	public Set<String> hkeys(String key) {
 		ShardedJedis shardedJedis = null;
 		try {
+			shardedJedis = getResource();
 			Jedis shard = shardedJedis.getShard(key);
 			if (shard.getClient().isInMulti()) {
 				throw new JedisDataException(
@@ -1091,16 +1130,47 @@ public class RedisUtils {
 	}
 
 	/**
+	 *
+	 *
+	 *
+	 *
+	 * @param key
+	 *
+	 * @return 返回值为linkedhashset有序
+	 * @see link http://redis.cn/commands/keys.html
+	 */
+	public Set<String> keys(String key) {
+		ShardedJedis shardedJedis = null;
+		try {
+			shardedJedis = getResource();
+			Jedis shard = shardedJedis.getShard(key);
+			if (shard.getClient().isInMulti()) {
+				throw new JedisDataException(
+						"Cannot use Jedis when in Multi. Please use JedisTransaction instead.");
+			}
+			shard.getClient().keys(key);
+			return STRING_LINKEDHASHSET.build(shard.getClient()
+					.getBinaryMultiBulkReply());
+		} catch (Exception e) {
+			returnBrokenResource(shardedJedis);
+			log.error(e.getMessage(), e);
+			throw new JedisException(e);
+		} finally {
+			returnResource(shardedJedis);
+		}
+	}
+
+	/**
 	 * key field 原子性incr value
-	 * 
+	 *
 	 * 返回值incr后的值
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
 	 * @param field
 	 * @param value
 	 * @return
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/hincrbyfloat.html
 	 */
 	public Double hincrbyfloat(String key, String field, double value) {
@@ -1128,13 +1198,13 @@ public class RedisUtils {
 	 * 然而因为增量式命令仅仅使用游标来记录迭代状态， 所以这些命令带有以下缺点： 同一个元素可能会被返回多次。 处理重复元素的工作交由应用程序负责，
 	 * 比如说， 可以考虑将迭代返回的元素仅仅用于可以安全地重复执行多次的操作上。 如果一个元素是在迭代过程中被添加到数据集的，
 	 * 又或者是在迭代过程中从数据集中被删除的， 那么这个元素可能会被返回， 也可能不会。
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
 	 * @param cursor
 	 *            游标
 	 * @return
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/hscan.html
 	 */
 	public ScanResult<Entry<String, String>> hscan(String key, String cursor) {
@@ -1153,11 +1223,11 @@ public class RedisUtils {
 
 	/**
 	 * 返回 key 指定的哈希集包含的字段的数量。
-	 * 
+	 *
 	 * 返回值 整数：哈希集中字段的数量，当 key 指定的哈希集不存在时返回 0
-	 * 
+	 *
 	 * @param key
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/hlen.html
 	 */
 	public Long hlen(String key) {
@@ -1176,14 +1246,14 @@ public class RedisUtils {
 
 	/**
 	 * 返回 key 指定的哈希集中指定字段的值。
-	 * 
+	 *
 	 * 对于哈希集中不存在的每个字段，返回 nil 值。因为不存在的keys被认为是一个空的哈希集，对一个不存在的 key 执行 HMGET
 	 * 将返回一个只含有 nil 值的列表
-	 * 
+	 *
 	 * 返回值 多个返回值：含有给定字段及其值的列表，并保持与请求相同的顺序。
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param key
 	 * @param fields
 	 * @see link http://redis.cn/commands/hmget.html
@@ -1205,14 +1275,14 @@ public class RedisUtils {
 	/**
 	 * 只在 key 指定的哈希集中不存在指定的字段时，设置字段的值。如果 key 指定的哈希集不存在，会创建一个新的哈希集并与 key
 	 * 关联。如果字段已存在，该操作无效果。
-	 * 
+	 *
 	 * 返回值 整数：含义如下
-	 * 
+	 *
 	 * 1：如果字段是个新的字段，并成功赋值 0：如果哈希集中已存在该字段，没有操作被执行
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/hsetnx.html
 	 */
 	public Long hsetnx(String key, String field, String value) {
@@ -1235,10 +1305,10 @@ public class RedisUtils {
 
 	/**
 	 * 返回 key 指定的哈希集中所有字段的值。
-	 * 
+	 *
 	 * 返回值 多个返回值：哈希集中的值的列表，当 key 指定的哈希集不存在时返回空列表。
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
 	 * @return 返回值为arraylist 有序
 	 * @see link http://redis.cn/commands/hvals.html
@@ -1259,9 +1329,9 @@ public class RedisUtils {
 
 	/**
 	 * ++key
-	 * 
+	 *
 	 * @param key
-	 * 
+	 *
 	 * @see link http://redis.cn/commands/incr.html
 	 */
 	public Long incr(String key) {
@@ -1280,7 +1350,7 @@ public class RedisUtils {
 
 	/**
 	 * 参选，如果参选成功将为key续期,如果已有被选举人则判断是否为自己 为自己则续期
-	 * 
+	 *
 	 * @param key
 	 *            参选项目
 	 * @param candidates
@@ -1316,15 +1386,15 @@ public class RedisUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * 将key对应的数字加decrement。如果key不存在，操作之前，key就会被置为0。
 	 * 如果key的value类型错误或者是个不能表示成数字的字符串，就返回错误。这个操作最多支持64位有符号的正型数字。
-	 * 
+	 *
 	 * 查看命令INCR了解关于增减操作的额外信息。
-	 * 
+	 *
 	 * 返回值 数字：增加之后的value值。
-	 * 
-	 * 
+	 *
+	 *
 	 * @param key
 	 * @param integer
 	 * @see link http://redis.cn/commands/incrBy.html
@@ -1512,7 +1582,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrangeByScoreWithScores(String key, double min,
-			double max, int offset, int count) {
+											  double max, int offset, int count) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1528,7 +1598,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrangeByScoreWithScores(String key, String min,
-			String max, int offset, int count) {
+											  String max, int offset, int count) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1656,7 +1726,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrevrangeByScoreWithScores(String key, String max,
-			String min) {
+												 String min) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1671,7 +1741,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max,
-			double min) {
+												 double min) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1686,7 +1756,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max,
-			double min, int offset, int count) {
+												 double min, int offset, int count) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1702,7 +1772,7 @@ public class RedisUtils {
 	}
 
 	public Set<Tuple> zrevrangeByScoreWithScores(String key, String max,
-			String min, int offset, int count) {
+												 String min, int offset, int count) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1761,7 +1831,7 @@ public class RedisUtils {
 
 	/**
 	 * 订阅指定shardkey下的某些频道
-	 * 
+	 *
 	 * @param shardkey
 	 *            用于shard定向
 	 * @param jedisPubSub
@@ -1771,7 +1841,7 @@ public class RedisUtils {
 	 * @see link http://redis.cn/commands/subscribe.html
 	 */
 	public void subscribe(String shardkey, JedisPubSub jedisPubSub,
-			String... channels) {
+						  String... channels) {
 		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
@@ -1787,7 +1857,7 @@ public class RedisUtils {
 
 	/**
 	 * 向指定shardkey下的某频道发送消息
-	 * 
+	 *
 	 * @param shardkey
 	 *            用于shard定向
 	 * @param channel
@@ -1812,7 +1882,7 @@ public class RedisUtils {
 
 	/**
 	 * 构建一个支持sharding的批处理工具类
-	 * 
+	 *
 	 * @return
 	 */
 	public ShardedJedisPipelineUtils buildPipelineUtils() {
@@ -1821,7 +1891,7 @@ public class RedisUtils {
 
 	/**
 	 * 根据shardKey获取jedis
-	 * 
+	 *
 	 * @param shardKey
 	 */
 	public Jedis getJedisByShardKey(String shardKey) {
@@ -1833,11 +1903,11 @@ public class RedisUtils {
 		}
 	}
 
-    /**
-     * 判断是否能提交
-     */
-    public boolean canBeSubmit(String key, String value, int seconds) {
-    	ShardedJedis shardedJedis = null;
+	/**
+	 * 判断是否能提交
+	 */
+	public boolean canBeSubmit(String key, String value, int seconds) {
+		ShardedJedis shardedJedis = null;
 		try {
 			shardedJedis = getResource();
 			return "OK".equalsIgnoreCase(shardedJedis.set(key, value, "NX", "EX", seconds));
@@ -1848,11 +1918,11 @@ public class RedisUtils {
 			returnResource(shardedJedis);
 		}
 		return false;
-    }
+	}
 
 	/**
 	 * 获取key在 shard分片中的index
-	 * 
+	 *
 	 * @param uri
 	 * @param key
 	 * @return
@@ -1899,7 +1969,7 @@ public class RedisUtils {
 
 	public static void main(String[] args) throws InterruptedException {
 		// String uri = "10.161.144.56:6379,10.161.144.56:6380";
-        String uri = "127.0.0.1:6379";
+		String uri = "127.0.0.1:6379";
 		JedisPoolConfig redisConfig = new JedisPoolConfig();
 		redisConfig.setTestOnBorrow(false);
 		redisConfig.setTestOnReturn(false);
