@@ -21,6 +21,8 @@
 		<constructor-arg index="2">
 			<set>
 				<value>172.4.23.99:26379</value>
+				<value>172.4.23.99:26380</value>
+				<value>172.4.23.99:26381</value>
 			</set>
 		</constructor-arg>
 	</bean>
