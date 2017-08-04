@@ -27,7 +27,7 @@
 
 		<!-- 依赖版本 -->
 		<!-- spring -->
-		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
+		<org.springframework.version>4.3.3.RELEASE</org.springframework.version>
 		<com.springsource.org.aspectj.weaver.version>1.7.2.RELEASE</com.springsource.org.aspectj.weaver.version>
 		
 		<!-- mybatis -->
@@ -35,7 +35,7 @@
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		
 		<!-- http -->
-		<httpasyncclient.version>4.0.1</httpasyncclient.version>
+		<httpasyncclient.version>4.1.2</httpasyncclient.version>
 		
 		<!-- view -->
 		<sitemesh.version>2.4.2</sitemesh.version>
@@ -55,14 +55,15 @@
 		<kryo.version>2.24.0</kryo.version>
 		<woodstox-core-asl.version>4.4.1</woodstox-core-asl.version>
 		<!-- javax -->
-		<javax.annotation.version>1.1.0.v201105051105</javax.annotation.version>
+		<javax.annotation-api.version>1.2</javax.annotation-api.version>
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
 		
 		
 		<!-- common 
 		<commons-httpclient.version>3.1</commons-httpclient.version>
 		-->
-		<commons-lang.version>2.6</commons-lang.version>
+		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-beanutils.version>1.8.0</commons-beanutils.version>
 		<commons-fileupload.version>1.2.2</commons-fileupload.version>
 		<commons-io.version>2.1</commons-io.version>
 		<commons-collections.version>3.2</commons-collections.version>
@@ -226,8 +227,8 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation</artifactId>
-			<version>${javax.annotation.version}</version>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>${javax.annotation-api.version}</version>
 		</dependency>
 
 		<!-- commons -->
@@ -242,9 +243,9 @@
 			<version>${commons-codec.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commons-lang.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
