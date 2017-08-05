@@ -14,7 +14,8 @@ import java.util.Map.Entry;
 /**
  * redis常用命令简单封装sharding版本
  *
- * @author liujiangping
+ * @see @link http://blog.csdn.net/LZJLZJLZJLZJLZJLZJ/article/details/52865149
+ * @author liuhb
  */
 public class RedisSentinelUtils {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(RedisSentinelUtils.class);

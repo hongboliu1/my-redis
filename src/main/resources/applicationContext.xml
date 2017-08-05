@@ -24,8 +24,11 @@
    	-->
    	<!-- 其他 -->
    	<import resource="classpath:spring/spring_beans.xml"/>
+	<!--
 	<import resource="classpath:spring/spring_cache.xml"/>
 	<import resource="classpath:spring/spring_sentinel.xml"/>
+	-->
+	<import resource="classpath:spring/spring_cluster.xml"/>
 	<import resource="classpath:spring/spring_servlet.xml"/>
 	
 	

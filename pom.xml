@@ -43,7 +43,7 @@
 		<mysql.version>5.1.30</mysql.version>
 		<com.springsource.org.logicalcobwebs.proxool.version>0.9.1</com.springsource.org.logicalcobwebs.proxool.version>
 		<druid.version>1.0.14</druid.version>
-		<jedis.version>2.9.0</jedis.version>
+		<jedis.version>2.7.2</jedis.version>
 		<jta.version>1.1</jta.version>
 		<transactions-jdbc.version>3.9.3</transactions-jdbc.version>
 		<!-- log -->
@@ -65,7 +65,7 @@
 		<commons-beanutils.version>1.8.0</commons-beanutils.version>
 		<commons-fileupload.version>1.2.2</commons-fileupload.version>
 		<commons-io.version>2.1</commons-io.version>
-		<commons-collections.version>3.2</commons-collections.version>
+		<commons-collections.version>4.1</commons-collections.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-pool.version>1.6</commons-pool.version>
 		
@@ -258,8 +258,8 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
 			<version>${commons-collections.version}</version>
 		</dependency>
 		<dependency>

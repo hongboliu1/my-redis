@@ -23,10 +23,8 @@
 		<property name="timeBetweenEvictionRunsMillis" value="${redis.pool.timeBetweenEvictionRunsMillis}" />
 	</bean>
 	
-	<!-- 
 	<bean id="redisUtils" class="com.ai.redis.util.RedisUtils">
 		<constructor-arg index="0" value="${redis.url}" />
 		<constructor-arg index="1" ref="jedisPoolConfig" />
 	</bean>
-	 -->
-</beans>  
+</beans>
