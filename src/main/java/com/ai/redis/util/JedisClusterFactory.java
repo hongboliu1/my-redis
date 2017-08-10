@@ -1,6 +1,7 @@
 package com.ai.redis.util;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import redis.clients.jedis.HostAndPort;
@@ -13,7 +14,7 @@ import java.util.Set;
 /**
  * Created by liuhb on 2017/8/5.
  */
-public class JedisClusterFactory implements FactoryBean<JedisCluster>, InitializingBean {
+public class JedisClusterFactory implements FactoryBean<JedisCluster>, InitializingBean, DisposableBean {
 
     private JedisPoolConfig jedisPoolConfig;
     private JedisCluster jedisCluster;
@@ -32,8 +33,8 @@ public class JedisClusterFactory implements FactoryBean<JedisCluster>, Initializ
             String[] arr = node.split("[:]");
             haps.add(new HostAndPort(arr[0], Integer.valueOf(arr[1])));
         });
-        jedisCluster = new JedisCluster(haps, connectionTimeout, maxRedirections, jedisPoolConfig);
-        // jedisCluster = new JedisCluster(haps, connectionTimeout, soTimeout, maxRedirections, genericObjectPoolConfig);
+        //jedisCluster = new JedisCluster(haps, connectionTimeout, maxRedirections, jedisPoolConfig);
+        jedisCluster = new JedisCluster(haps, connectionTimeout, soTimeout, maxRedirections, jedisPoolConfig);
     }
 
     @Override
@@ -44,6 +45,11 @@ public class JedisClusterFactory implements FactoryBean<JedisCluster>, Initializ
     @Override
     public Class<?> getObjectType() {
         return (this.jedisCluster != null ? this.jedisCluster.getClass() : JedisCluster.class);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+
     }
 
     @Override

@@ -43,7 +43,8 @@
 		<mysql.version>5.1.30</mysql.version>
 		<com.springsource.org.logicalcobwebs.proxool.version>0.9.1</com.springsource.org.logicalcobwebs.proxool.version>
 		<druid.version>1.0.14</druid.version>
-		<jedis.version>2.9.0</jedis.version>
+		<jedis.version>2.7.3</jedis.version>
+		<redisson.version>3.5.0</redisson.version>
 		<jta.version>1.1</jta.version>
 		<transactions-jdbc.version>3.9.3</transactions-jdbc.version>
 		<!-- log -->
@@ -190,6 +191,11 @@
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>${jedis.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.redisson</groupId>
+		  <artifactId>redisson</artifactId>
+		  <version>${redisson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
