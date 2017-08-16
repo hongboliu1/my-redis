@@ -400,13 +400,13 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<excludes>
-					<!--
-					<exclude>config/dev/</exclude>
-					<exclude>config/prod/</exclude>
-					<exclude>config/test/</exclude>
-					 -->
-				</excludes>
+				<!--
+				<includes>
+					<include>config/dev/</include>
+					<include>config/prod/</include>
+					<include>config/test/</include>
+				</includes>
+				-->
 				<filtering>true</filtering>
 			</resource>
 			<resource>
