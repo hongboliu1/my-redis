@@ -130,8 +130,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
-			<artifactId>com.springsource.org.aspectj.weaver</artifactId>
-			<version>${com.springsource.org.aspectj.weaver.version}</version>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
