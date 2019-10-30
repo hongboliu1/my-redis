@@ -4,7 +4,7 @@
 	<artifactId>my-redis</artifactId>
 	<groupId>com.ai</groupId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<properties>
 		<!-- 定义项目字符集编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,42 +26,34 @@
 
 		<!-- 依赖版本 -->
 		<!-- spring -->
-		<org.springframework.version>4.3.3.RELEASE</org.springframework.version>
-		<com.springsource.org.aspectj.weaver.version>1.7.2.RELEASE</com.springsource.org.aspectj.weaver.version>
+		<org.springframework.version>5.1.5.RELEASE</org.springframework.version>
 		
 		<!-- mybatis -->
-		<org.mybatis.version>3.2.7</org.mybatis.version>
-		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<org.mybatis.version>3.4.4</org.mybatis.version>
+		<mybatis-spring.version>1.3.1</mybatis-spring.version>
 		
 		<!-- http -->
-		<httpasyncclient.version>4.1.2</httpasyncclient.version>
+		<httpasyncclient.version>4.5.1</httpasyncclient.version>
 		
-		<!-- view -->
-		<sitemesh.version>2.4.2</sitemesh.version>
-		<freemarker.version>2.3.23</freemarker.version>
 		<!-- DB、cache、事务 -->
-		<mysql.version>5.1.30</mysql.version>
-		<com.springsource.org.logicalcobwebs.proxool.version>0.9.1</com.springsource.org.logicalcobwebs.proxool.version>
+		<mysql.version>5.1.47</mysql.version>
 		<druid.version>1.1.2</druid.version>
-		<jedis.version>2.7.3</jedis.version>
+		<jedis.version>2.9.0</jedis.version>
 		<redisson.version>3.5.0</redisson.version>
 		<jta.version>1.1</jta.version>
-		<transactions-jdbc.version>3.9.3</transactions-jdbc.version>
 		<!-- log -->
-		<log4j.version>1.2.16</log4j.version>
-		<org.slf4j.version>1.7.12</org.slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<org.slf4j.version>1.7.25</org.slf4j.version>
 		<!-- 序列化 -->
-		<jackson.version>2.4.4</jackson.version>
+		<jackson.version>2.9.3</jackson.version>
+		<mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 		<kryo.version>2.24.0</kryo.version>
 		<woodstox-core-asl.version>4.4.1</woodstox-core-asl.version>
 		<!-- javax -->
 		<javax.annotation-api.version>1.2</javax.annotation-api.version>
-		<javax.validation.version>1.0.0.GA</javax.validation.version>
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		
 		
-		<!-- common 
-		<commons-httpclient.version>3.1</commons-httpclient.version>
-		-->
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<commons-beanutils.version>1.8.0</commons-beanutils.version>
 		<commons-fileupload.version>1.2.2</commons-fileupload.version>
@@ -76,26 +68,27 @@
 		<!-- other -->
 		<pinyin4j.version>2.5.0</pinyin4j.version>
 		<poi-ooxml.version>3.8</poi-ooxml.version>
-		<hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
+		<hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
 		<junit.version>3.8.1</junit.version>
-		<aopalliance.version>1.0</aopalliance.version>
-		<aspectjweaver.version>1.8.0</aspectjweaver.version>
-		<apache-poi>3.10-FINAL</apache-poi>
-		<urlrewrite.version>3.1.0</urlrewrite.version>
-		<jmagick.version>6.6.9</jmagick.version>
+		<aspectjweaver.version>1.8.3</aspectjweaver.version>
+
+		<swagger.version>2.6.1</swagger.version>
+		<guava.version>19.0</guava.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-servlet-api</artifactId>
-			<version>${tomcat.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -133,11 +126,6 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectjweaver.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>${freemarker.version}</version>
-		</dependency>
 		<!-- Jackson JSON Mapper -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -159,10 +147,15 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 		<dependency>
-			<groupId>org.codehaus.woodstox</groupId>
-			<artifactId>woodstox-core-asl</artifactId>
-			<version>${woodstox-core-asl.version}</version>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-typehandlers-jsr310</artifactId>
+			<version>${mybatis-typehandlers-jsr310.version}</version>
 		</dependency>
 		
 		<!-- JSR 303 with Hibernate Validator -->
@@ -175,11 +168,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<version>${sitemesh.version}</version>
 		</dependency>
 
 		<dependency>
@@ -253,15 +241,9 @@
 			<version>${commons-lang3.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi-ooxml.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>stax</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -295,11 +277,25 @@
 			<version>${druid.version}</version>
 		</dependency>
 
+		<!-- swagger -->
 		<dependency>
-			<groupId>jmagick</groupId>
-			<artifactId>jmagick</artifactId>
-			<version>${jmagick.version}</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml</groupId>
+			<artifactId>classmate</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<!-- swagger -->
+
+
 
 	</dependencies>
 	<build>
@@ -400,13 +396,6 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<!--
-				<includes>
-					<include>config/dev/</include>
-					<include>config/prod/</include>
-					<include>config/test/</include>
-				</includes>
-				-->
 				<filtering>true</filtering>
 			</resource>
 			<resource>

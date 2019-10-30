@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="         
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd         
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd         
+          http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd         
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd         
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-autowire="byName" default-destroy-method="close" default-lazy-init="false">
+
+	<bean name="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxWaitMillis" value="-1" />
+		<property name="maxTotal" value="100" />
+		<property name="minIdle" value="0" />
+		<property name="maxIdle" value="5" />
+		<property name="blockWhenExhausted" value="true"/>
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="minEvictableIdleTimeMillis" value="60000" />
+		<property name="timeBetweenEvictionRunsMillis" value="30000" />
+		<property name="numTestsPerEvictionRun" value="-1" />
+	</bean>
+
+	<bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+		<constructor-arg index="0">
+			<set>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6380" type="int"/>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6381" type="int"/>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6382" type="int"/>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6383" type="int"/>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6384" type="int"/>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0" value="172.4.23.99"/>
+					<constructor-arg index="1" value="6385" type="int"/>
+				</bean>
+			</set>
+		</constructor-arg>
+		<!-- connectionTimeout 网络连接时间-->
+		<constructor-arg index="1" value="1000" type="int"/>
+		<!-- soTimeout 读取数据时间-->
+		<constructor-arg index="2" value="500" type="int"/>
+		<!-- maxAttempts -->
+		<constructor-arg index="3" value="10" type="int"/>
+		<!-- poolConfig -->
+		<constructor-arg index="4" ref="jedisPoolConfig" />
+	</bean>
+
+</beans>  
