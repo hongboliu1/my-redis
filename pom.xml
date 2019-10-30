@@ -407,15 +407,10 @@
 		</pluginManagement>
 		<resources>
 			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
+				<directory>${project.basedir}/src/main/resources/common</directory>
 			</resource>
 			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>config/${active.profile}/**</include>
-				</includes>
-				<filtering>true</filtering>
+				<directory>${project.basedir}/src/main/resources/config/${build.env}</directory>
 			</resource>
 		</resources>
 	</build>
@@ -427,27 +422,21 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<active.profilename>dev</active.profilename>
+				<build.env>dev</build.env>
 			</properties>
 		</profile>
 		<!-- 测试环境 -->
 		<profile>
 			<id>test</id>
 			<properties>
-				<active.profilename>test</active.profilename>
-				<active.driverClass>com.mysql.jdbc.Driver</active.driverClass>
-				<active.name>confdata</active.name>
-				<active.pwd>123456</active.pwd>
-				<active.url>jdbc:mysql://113.57.196.18:23306/DB_CONFCENT?characterEncoding=utf8</active.url>
-				<active.createPropertyFile>false</active.createPropertyFile>
-				<active.autoReload>true</active.autoReload>
+				<build.env>test</build.env>
 			</properties>
 		</profile>
 		<!-- 生产环境 -->
 		<profile>
 			<id>prod</id>
 			<properties>
-				<active.profilename>prod</active.profilename>
+				<build.env>prod</build.env>
 			</properties>
 		</profile>
 	</profiles>	

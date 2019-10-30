@@ -7,7 +7,7 @@
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:config/${active.profilename}/*.properties</value>
+                <value>classpath:*.properties</value>
             </list>
         </property>
     </bean>
