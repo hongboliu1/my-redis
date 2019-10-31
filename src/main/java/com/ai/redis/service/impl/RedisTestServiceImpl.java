@@ -3,10 +3,13 @@ package com.ai.redis.service.impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -28,6 +31,19 @@ public class RedisTestServiceImpl implements RedisTestService {
     private RedisTemplate<String, String> redisTemplate;
 
     @Override
+    public List<String> testRedisClusterKeys() {
+        List<String> result = Collections.emptyList();
+        Set<String> keys = redisTemplate.keys("11_*");
+        if (CollectionUtils.isNotEmpty(keys)) {
+            result = new ArrayList<>(keys.size());
+            for (String key : keys) {
+                result.add(redisTemplate.opsForValue().get(key));
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String test(String serviceName) {
         redisTemplate.opsForValue().set("aa", "china");
         String aa = redisTemplate.opsForValue().get("aa");
@@ -45,10 +61,11 @@ public class RedisTestServiceImpl implements RedisTestService {
         redisScript.setResultType(Long.class);
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("test.lua")));
 
+        // 在集群环境下使用lua设置key，必须使用{}，redis 使用key进行hash时，只使用{}中的值
         List<String> keys = new ArrayList<>(2);
         keys.add("{1111}:name");
         keys.add("{1111}:age");
 
-        return redisTemplate.execute(redisScript, keys, "liuhongbo","98");
+        return redisTemplate.execute(redisScript, keys, "liuhongbo", "98");
     }
 }
