@@ -5,6 +5,7 @@
        default-autowire="byName">
 
     <!-- POOL配置 -->
+    <!-- 连接池的配置参考：https://blog.csdn.net/pengdandezhi/article/details/78921792 -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxTotal" value="${redis.pool.maxTotal}"/>
         <property name="minIdle" value="${redis.pool.minIdle}"/>
