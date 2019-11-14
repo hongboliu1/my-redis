@@ -71,7 +71,7 @@
 		<pinyin4j.version>2.5.0</pinyin4j.version>
 		<poi-ooxml.version>3.8</poi-ooxml.version>
 		<hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
-		<junit.version>3.8.1</junit.version>
+		<junit.version>4.12</junit.version>
 		<aspectjweaver.version>1.8.3</aspectjweaver.version>
 
 		<swagger.version>2.6.1</swagger.version>
@@ -121,6 +121,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
