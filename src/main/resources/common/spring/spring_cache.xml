@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-       default-autowire="byName">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- POOL配置 -->
     <!-- 连接池的配置参考：https://blog.csdn.net/pengdandezhi/article/details/78921792 -->
@@ -16,15 +15,15 @@
         <property name="testWhileIdle" value="${redis.pool.testWhileIdle}"/>
         <property name="blockWhenExhausted" value="true"/>
         <property name="timeBetweenEvictionRunsMillis" value="${redis.pool.timeBetweenEvictionRunsMillis}"/>
-        <property name="numTestsPerEvictionRun" value="-1" />
-        <property name="minEvictableIdleTimeMillis" value="60000" />
+        <property name="numTestsPerEvictionRun" value="-1"/>
+        <property name="minEvictableIdleTimeMillis" value="60000"/>
     </bean>
 
 
     <bean id="jedisConnectionFactory"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <constructor-arg ref="clusterConfig" />
-        <constructor-arg ref="jedisPoolConfig" />
+        <constructor-arg ref="clusterConfig"/>
+        <constructor-arg ref="jedisPoolConfig"/>
     </bean>
     <bean id="redisProperties"
           class="org.springframework.core.io.support.ResourcePropertySource">

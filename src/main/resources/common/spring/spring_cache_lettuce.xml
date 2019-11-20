@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-       default-autowire="byName">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- POOL配置 -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -15,14 +14,14 @@
         <property name="testWhileIdle" value="${redis.pool.testWhileIdle}"/>
         <property name="blockWhenExhausted" value="true"/>
         <property name="timeBetweenEvictionRunsMillis" value="${redis.pool.timeBetweenEvictionRunsMillis}"/>
-        <property name="numTestsPerEvictionRun" value="-1" />
-        <property name="minEvictableIdleTimeMillis" value="60000" />
+        <property name="numTestsPerEvictionRun" value="-1"/>
+        <property name="minEvictableIdleTimeMillis" value="60000"/>
     </bean>
 
     <!-- 执行lua 必须使用 LettuceConnectionFactory -->
     <bean id="jedisConnectionFactory"
           class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
-        <constructor-arg ref="clusterConfig" />
+        <constructor-arg ref="clusterConfig"/>
     </bean>
     <bean id="redisProperties"
           class="org.springframework.core.io.support.ResourcePropertySource">
