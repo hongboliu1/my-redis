@@ -9,17 +9,15 @@ import com.ai.redis.model.MyTestBean;
 
 /**
  * @author liuhb
- * @date 2019-11-19 11:30
+ * @date 2019-11-21 10:06
  */
-
-public class ClassPathTest {
+public class AopTest {
 
     @Test
     public void testClassPathXml() {
-        String[] configLocations = {"beans.xml"};
+        String[] configLocations = {"AopBeans.xml"};
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
         MyTestBean testBean = (MyTestBean) ctx.getBean("myTestBean");
-        Assert.assertEquals(testBean.getName(), "chinese");
+        Assert.assertEquals(testBean.getName(), "aop");
     }
-
 }
