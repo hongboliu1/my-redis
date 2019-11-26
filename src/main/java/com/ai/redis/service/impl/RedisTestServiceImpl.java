@@ -1,11 +1,9 @@
 package com.ai.redis.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -19,6 +17,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
+import com.ai.redis.model.LocalDateDemoVO;
 import com.ai.redis.service.RedisTestService;
 
 /**
@@ -77,5 +76,17 @@ public class RedisTestServiceImpl implements RedisTestService {
     @Override
     public String reloadProperties() {
         return name;
+    }
+
+    @Override
+    public LocalDateDemoVO returnHello(LocalDateDemoVO req) {
+        LocalDateDemoVO vo = new LocalDateDemoVO();
+        vo.setNow(LocalDateTime.now());
+        vo.setDate(new Date());
+        vo.setDay(LocalDate.now());
+        vo.setInputDate(req.getInputDate());
+        vo.setInputDays(req.getInputDays());
+        vo.setInputLocalDate(req.getInputLocalDate());
+        return vo;
     }
 }
