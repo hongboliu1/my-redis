@@ -26,8 +26,6 @@ public class App {
 
     @Test
     public void test() {
-        System.out.println("spring5 junit is running");
         Assert.assertTrue(Boolean.TRUE);
     }
-
 }

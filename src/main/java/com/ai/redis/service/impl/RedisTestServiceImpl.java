@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -26,9 +27,13 @@ import com.ai.redis.service.RedisTestService;
  */
 @Service("redisTestService")
 public class RedisTestServiceImpl implements RedisTestService {
+
     private static final Logger logger = LoggerFactory.getLogger(RedisTestService.class);
     @Resource
     private RedisTemplate<String, String> redisTemplate;
+
+    @Value("${name}")
+    private String name;
 
     @Override
     public List<String> testRedisClusterKeys() {
@@ -67,5 +72,10 @@ public class RedisTestServiceImpl implements RedisTestService {
         keys.add("{1111}:age");
 
         return redisTemplate.execute(redisScript, keys, "liuhongbo", "98");
+    }
+
+    @Override
+    public String reloadProperties() {
+        return name;
     }
 }

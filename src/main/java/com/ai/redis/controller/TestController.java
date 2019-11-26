@@ -41,4 +41,10 @@ public class TestController {
     public Long testRunLua() {
         return redisTestService.runLua();
     }
+
+    @GetMapping(value = "/reloadProperties")
+    @ApiOperation(value = "自动重新获取配置")
+    public String reloadProperties() {
+        return redisTestService.reloadProperties();
+    }
 }
